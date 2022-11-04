@@ -1,4 +1,4 @@
-library(tidyverse)
-library(magrittr)
-library(lubridate)
-library(readxl)
+suppressMessages(library(tidyverse))
+suppressMessages(library(magrittr))
+suppressMessages(library(lubridate))
+suppressMessages(library(readxl))
