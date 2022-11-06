@@ -1,6 +1,9 @@
 rm(list = ls())
 
+library(gsignal)
 source("basic_lib.R")
+
+conflict_prefer("filter", "dplyr")
 
 data.source <- c("C:/Users/User/OneDrive - Simon Fraser University (1sfu)/PhD/lab projects/practice study/test_data")
 
@@ -19,9 +22,9 @@ t2 <- 17.5
 sacral.dat <- read.csv(
   paste0(data.source, "/", 
          grep(paste(sacral.imu, collapse = "|"), file.list, value = TRUE)[1])
-  ) %>%
+) %>%
   filter(.,
-         time_s >= t1,
+         time_s >= t1 &
          time_s <= t2)
 
 left.tib.dat <- read.csv(
@@ -29,7 +32,7 @@ left.tib.dat <- read.csv(
          grep(paste(left.imu, collapse = "|"), file.list, value = TRUE)[1])
 ) %>%
   filter(.,
-         time_s >= t1,
+         time_s >= t1 &
          time_s <= t2)
 
 right.tib.dat <- read.csv(
@@ -37,7 +40,7 @@ right.tib.dat <- read.csv(
          grep(paste(right.imu, collapse = "|"), file.list, value = TRUE)[1])
 ) %>%
   filter(.,
-         time_s >= t1,
+         time_s >= t1 &
          time_s <= t2)
 
 
