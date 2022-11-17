@@ -43,7 +43,10 @@ right.tib.dat <- read.csv(
          time_s >= t1 &
          time_s <= t2)
 
+#need to work on this...
+bf <- butter(4, c(15,150), plane = "s")
 
+filtered_dat <- gsignal::filter(bf, sacral.dat$az_m.s.s)
 
 ggplot() +
   geom_point(data = sacral.dat,
