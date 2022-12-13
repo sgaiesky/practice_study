@@ -4,7 +4,7 @@ source('basic_lib.R')
 library("psych")
 library("xlsx")
 
-pivot_dat <- read_xlsx('run_data.xlsx') %>%
+pivot_dat <- read.xlsx('run_data.xlsx', sheetName = 'data') %>%
   filter(!grepl('remove', note)) %>%
   select(!contains("land") & !contains("take") & !contains('note')) %>%
   pivot_longer(cols = cadence:df, names_to = 'variables')
@@ -36,7 +36,8 @@ sd_tbl <- descrip %>%
   rename('sd_1' = '1',
          'sd_2' = '2') %>%
   rowwise() %>%
-  mutate(sd_mean = mean(sd_1:sd_2))
+  mutate(sd_mean = (sd_1+sd_2)/2) %>%
+  mutate_if(is.numeric, round, 2)
 
 icc_res <- list()
 
@@ -54,8 +55,6 @@ for (spd in unique(pivot_dat$speed)) {
     x <- ICC(dat[4:5], missing = TRUE)
     
     icc_res[[nam]][[paste0(var)]] <- x$results
-    
-    rm(x, dat)
   }
 }
 
@@ -74,4 +73,5 @@ write.xlsx(icc_res[[i]], paste0('icc_results.xlsx'), sheetName = names(icc_res[i
   
 }
 
+write.xlsx(sd_tbl, paste0('icc_results.xlsx'), sheetName = 'sd_table', append = TRUE)
 
